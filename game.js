@@ -170,5 +170,58 @@ class LevelParser {
     this.dictionary = dictionary;
   }
     
+  actorFromSymbol( symbol ) {
+    if (!symbol || !this.dictionary) {
+      return ;
+    }
+    else {
+      return this.dictionary[symbol]
+    }
+  }
   
+  obstacleFromSymbol( symbol ) {
+    if (symbol === 'x') return 'wall';
+    if (symbol ==='!') return 'lava';
+    return;
+  }
+    
+  createGrid( playingGrid ){
+    let self = this;
+    return playingGrid.map( line => {
+      return line.split('').map( x => { 
+//        if (x === 'x') return 'wall';
+//        if (x ==='!') return 'lava';
+//        return; 
+          return self.obstacleFromSymbol(x);
+      });
+    });
+  }
+  
+  createActors (playingGrid) {
+    let self = this;
+//    return playingGrid.map( line => {
+//      return line.split('').map( x => { 
+//        return ; 
+//      });
+//    });
+    const grid = playingGrid.map( line => line.split('') );
+    const actors = [];
+    grid.forEach((line, y) => {
+      line.forEach((cell, x) => {
+        //if (this.entities && this.entities[cell] && typeof this.entities[cell] === 'function') {
+          const actor = new this.dictionary[cell] (new Vector(x, y));
+          if (actor instanceof Actor) {
+              actors.push(actor);
+          }
+        //}
+      });
+    });
+    return actors;
+  }
+    
+  parse(plan) {
+    const grid = this.createGrid(plan);
+    const actors = this.createActors(plan);
+    return new Level(grid, actors);
+  }
 }
