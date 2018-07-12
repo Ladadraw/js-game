@@ -56,7 +56,9 @@ class Actor {
         throw new Error('Должен быть передан аргумент типа Actor');
     }
     
-    if (actor === this) return false;
+    if (actor === this) {
+      return false;
+    }
 
     if ((this.right > actor.left && this.left < actor.right) && (this.bottom > actor.top && this.top < actor.bottom)) {
       return true
@@ -85,19 +87,19 @@ class Level {
     
   actorAt ( actor ) {
     if ( !(actor instanceof Actor) || !actor ) {
-        throw new Error('Должен быть передан аргумент типа Actor');
+      throw new Error('Должен быть передан аргумент типа Actor');
     }
       
     if(this.grid === undefined ){
-			return undefined;
-		}
+      return undefined;
+	}
 		
-		for(const act of this.actors){
-			if (typeof act !='undefined' && actor.isIntersect(act)){
-				return act;
-			}
-		}
-		return undefined;
+    for(const act of this.actors){
+      if (typeof act !='undefined' && actor.isIntersect(act)){
+        return act;
+      }
+	}
+	return undefined;
   }
     
   obstacleAt(pos, size) {
@@ -180,25 +182,26 @@ class LevelParser {
   }
   
   obstacleFromSymbol( symbol ) {
-    if (symbol === 'x') return 'wall';
-    if (symbol ==='!') return 'lava';
+    if (symbol === 'x') {
+      return 'wall';
+    }
+    if (symbol ==='!') {
+      return 'lava';
+    }
     return;
   }
     
   createGrid( playingGrid ){
     let self = this;
     return playingGrid.map( line => {
-      return line.split('').map( x => { 
-//        if (x === 'x') return 'wall';
-//        if (x ==='!') return 'lava';
-//        return; 
-          return self.obstacleFromSymbol(x);
+      return [...line].map( x => {
+        return self.obstacleFromSymbol(x);
       });
     });
   }
   
   createActors (playingGrid) {
-    let grid = playingGrid.map( line => line.split('') );
+    let grid = playingGrid.map( line => [...line] );
     let actors = [];
     grid.forEach((line, y) => {
       line.forEach((cell, x) => {
