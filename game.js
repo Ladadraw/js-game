@@ -192,10 +192,9 @@ class LevelParser {
   }
     
   createGrid( playingGrid ){
-    let self = this;
     return playingGrid.map( line => {
       return [...line].map( x => {
-        return self.obstacleFromSymbol(x);
+        return this.obstacleFromSymbol(x);
       });
     });
   }
