@@ -1,5 +1,6 @@
 'use strict';
 
+//class Vector
 class Vector {
   constructor(x = 0, y = 0) {
       this.x = x;
@@ -19,6 +20,7 @@ class Vector {
 
 }
 
+//class Actor
 class Actor {
   constructor(pos = new Vector(0,0), size = new Vector(1,1), speed = new Vector(0,0) ) {
     if (!((pos instanceof Vector) && (size instanceof Vector) && (speed instanceof Vector))) {
